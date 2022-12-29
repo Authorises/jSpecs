@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>hardware</title>
+  <style>
+    table {
+      border: 1px solid;
+    }
+    table, th, td {
+      padding: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="jquery.js"></script>
+
+          <b>Motherboard </b>
+          <div id="motherboard">
+          </div>
+        <p>
+
+          <b>Firmware </b>
+          <div id="firmware">
+          </div>
+        <p>
+
+          <b>Processor </b>
+          <div id="cpu">
+          </div>
+        <p>
+
+          <b>Memory (Total <span id="mem"></span>B)</b>
+          <div id="memi">
+          </div>
+        <p>
+
+          <b>Misc </b>
+          <div id="misc">
+          </div>
+        <p>
+
+  <script>
+
+
+    $.getJSON("http://localhost:8080/hardware", function( data ) {
+      $("#motherboard").html(buildHtmlTable([data.computerSystem.baseboard]));
+      $("#firmware").html(buildHtmlTable([data.computerSystem.firmware]));
+
+      console.log(data.computerSystem)
+
+      data.computerSystem.baseboard = null
+      data.computerSystem.firmware = null
+
+
+      $("#misc").html(buildHtmlTable([data.computerSystem]));
+
+      $("#cpu").html(buildHtmlTable([data.processor.processorIdentifier]));
+
+      $("#mem").text(data.memory.total);
+
+      $("#memi").html(buildHtmlTable(data.memory.physicalMemory));
+
+    });
+
+  </script>
+</body>
+
+</html>
